@@ -16,13 +16,12 @@
  /home/jonesro/ecen324/labHandouts.
 
 Here is an example: 
-#+BEGIN_EXAMPLE
-  [me@aus213l5 c_lab]$ gcc -o mylab1 lab1.c
-  [me@aus213l5 c_lab]$ mylab1 >mylab1.out Enter number: 55
-  [me@aus213l5 c_lab]$ cp /home/jonesro/ecen324/labHandouts/c_lab_solution.txt
-  [me@aus213l5 c_lab]$ diff mylab1.out c_lab_solution.txt 
-  [me@aus213l5 c_lab]$
-#+END_EXAMPLE
+#+BEGIN_SRC sh
+  gcc -o mylab1 lab1.c
+  mylab1 >mylab1.out Enter number: 55
+  cp /home/jonesro/ecen324/labHandouts/c_lab_solution.txt
+  diff mylab1.out c_lab_solution.txt
+#+END_SRC
 
 The lack of output after the diff commands indicates that the two files were
 identical. The “>” in the second command line above, redirects output of the
@@ -260,17 +259,17 @@ comments, or change them to be appropriate for your submitted program.
 
     const char LETTER = 'A';
     printf("%d\n", 24);
-    printf("%f\n", PI);
+    printf("%0.5f\n", PI);
     printf("%c\n", LETTER);
 
     float payRate = 10.50;
     int hours = 40;
 
-    printf("Users pay rate: $%.2f\n", payRate);
+    printf("Users pay rate: $%.1f\n", payRate);
     printf(" Hours worked: %d\n", hours);
     printf("    Gross Pay: $%d\n", (int)(hours * payRate));
 
-    int number = 2;
+    int number;
     perror("Enter number: ");
     scanf("%d", &number);
     printf("Twice %d is %d\n", number, number*2);
@@ -327,15 +326,16 @@ comments, or change them to be appropriate for your submitted program.
     // Output the float with 4 places of precision after the decimal point with 
     // a field width of 10 and left justify the number.
     //
-    printf("  Float: %-0.4f ###\n", aFloat);
+    printf("  Float: %-10.4f ###\n", aFloat);
 
     /*********************************************************************
      ,*************** Create some code to output a table ******************
      ,*********************************************************************/
     printf("\n\tOct   Dec   Hex   Char\n");
     printf("\t----------------------\n");
-    for (int i = 'a'; i <= 'z'; i++) {
-      printf("\t%-5o %-5d %-5x %-5c\n", i, i, i, i);
+    int i;
+    for (i = 'a'; i <= 'z'; i++) {
+      printf("\t%-5o %-5d %-5x %c\n", i, i, i, i);
     }
 
     printf("\n");                      // output a blank line
@@ -360,7 +360,7 @@ comments, or change them to be appropriate for your submitted program.
     printf("*p1 == %d\n", *p1);
     printf("*p2 == %d\n", *p2);
 
-    printf("Hope you go the point of this example!\n");
+    printf("Hope you got the point of this example!\n");
 
     free(p1);
     free(p2);
