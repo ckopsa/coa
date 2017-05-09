@@ -1,0 +1,439 @@
+* ECEN 324 - Brother Jones Lab #1 – C Programming
+  The CSEE Linux Lab is in Austin 213. This lab assignment is to convert a C++
+  program into a C program. The C++ program may be found at:
+
+ /home/jonesro/ecen324/labHandouts/ecen324_c_lab.cpp
+
+ There is one section of the code where the C++ code is not given to you. Write
+ the C code to generate the table as given in the C++ file.
+
+ Your C code should have a “.c” extension and be compiled with gcc.
+
+ The command to compile your code might look like: gcc -o mylab1 lab1.c
+
+ To check the correctness of your program, use “55” as the input value and use
+ the “diff” command to compare your output with the output in
+ /home/jonesro/ecen324/labHandouts.
+
+Here is an example: 
+#+BEGIN_SRC sh
+  gcc -o mylab1 lab1.c
+  mylab1 >mylab1.out Enter number: 55
+  cp /home/jonesro/ecen324/labHandouts/c_lab_solution.txt
+  diff mylab1.out c_lab_solution.txt
+#+END_SRC
+
+The lack of output after the diff commands indicates that the two files were
+identical. The “>” in the second command line above, redirects output of the
+mylab1 command to the file named mylab1.out.
+
+- Submit your C code by executing the “submit” command, like: submit lab1.c The
+  header in the .cpp has the proper lab name and format for use with the submit command.
+
+- C programming tutorials that might be helpful:
+  - http://www.iu.hio.no/~mark/CTutorial/CTutorial.html
+  - http://cplus.about.com/library/blctut.htmoThe
+
+- man and info commands may be used to access documentation on UNIX/Linux
+  commands, libraries, file formats and other items. There are various sections
+  to the “manual” pages and doing a command like:
+
+man printf
+
+Might bring up information in section 1 (one) of the man pages where what you
+really wanted was the information in another section. To get to the
+documentation on printf that will be most helpful, try:
+
+man 3 printf 
+
+Dynamic memory allocation in C++ is done with new and delete operators. These
+are not available in C. A web search with something like “dynamic memory
+allocation in c” should get you to some good resources. oYou will not be able to
+use the style checker on the C code but you still need to use good style.
+oProperly comment your code. You should not leave the comments in your submitted
+code that talk about how to do something in C++ and then do it in C. Remove the
+comments, or change them to be appropriate for your submitted program.
+
+- Dynamic memory allocation in C++ is done with new and delete operators. These
+  are not available in C. A web search with something like “dynamic memory
+  allocation in c” should get you to some good resources.
+- You will not be able to use the style checker on the C code but you still need
+  to use good style.
+- Properly comment your code. You should not leave the comments in your
+  submitted code that talk about how to do something in C++ and then do it in C.
+  Remove the comments, or change them to be appropriate for your submitted
+  program.
+
+#+BEGIN_SRC C++ :tangle lb01.cpp :results output
+  /***********************************************************************
+  ,* Program:
+  ,*    Lab C_lab, ECEN 324 Learning C Lab
+  ,*    Brother Jones, ECEN 324
+  ,* Author:
+  ,*    Colton Kopsa
+  ,* Summary:
+  ,*    Descriptive text ...
+  ,************************************************************************/
+
+  #include <iostream>
+  #include <iomanip>
+  using namespace std;
+
+  #define PI 3.1415926
+
+  /***********************************************************************
+  ,* descriptive text goes here
+  ,***********************************************************************/
+  int main (void)
+  {
+     // Printing various items
+
+     const char LETTER = 'A';
+     cout << 24 << '\n';
+     cout << PI << endl;
+     cout << LETTER << endl;
+
+     float payRate = 10.50;
+     int hours = 40;
+
+     cout << "Users pay rate: $" << payRate << endl; 
+     cout << " Hours worked: " << hours << endl;
+     cout << "    Gross Pay: $" << hours * payRate << endl;
+
+     int number;
+     cerr << "Enter number: ";
+     cin >> number;
+     cout << "Twice " << number << " is " << number * 2 << endl;
+
+     /*********************************************************************/
+     /*********************** Output an Integer ***************************/
+     /*********************************************************************/
+     int anInt = 99;
+     float aFloat = 43.2;
+
+     // Output the integer with the default formatting.
+     //
+     ctout << endl;                      // output a blank line
+     cout << "Integer: " << anInt << " ###\n";
+
+     // Output the integer in a fixed field width of 10.
+     // The setw() manipulator takes effect only for the next output object.
+     // The object will be right justified in the field.
+     //
+     cout << "Integer: " << setw(10) << anInt << " ###\n";
+
+     // Output the integer in a fixed field width of 10
+     // and left justified in the field.
+     //
+     cout << setiosflags(ios::left);
+     cout << "Integer: " << setw(10) << anInt << " ###\n\n";
+
+
+     /*********************************************************************/
+     /************************* Output a Float ****************************/
+     /*********************************************************************/
+
+     // Output the float with the default formatting.
+     //
+     cout << "  Float: " << aFloat << " ###\n";
+
+     // Output the float in a fixed field width of 10.
+     // The setw() manipulator takes effect only for the next output object.
+     // The float object is left justified in the field because the setiosflags()
+     // done previously is still in effect.
+     //
+     cout << "  Float: " << setw(10) << aFloat << " ###\n";
+
+     // Output the float right justified in a field width of 10 with  
+     // a precision of 2 places after the decimal point for the float. 
+     //
+     cout << "  Float: " 
+          << setw(10) << setprecision(2)
+          << resetiosflags( ios::left )
+          << setiosflags( ios::fixed | ios::showpoint )
+          << aFloat << " ###" << endl;
+
+     // Output the float with 3 places of precision after the decimal point but
+     // not giving a field width.
+     //
+     cout << "  Float: " << setprecision(3) << aFloat << " ###\n";
+
+     // Output the float with 3 places of precision after the decimal point with
+     // a field width of 10.  The other flags set above are still in effect.
+     //
+     cout << "  Float: " << setprecision(3) << setw(10) 
+          << aFloat << " ###\n";
+
+     // Output the float with 4 places of precision after the decimal point with 
+     // a field width of 10 and left justify the number.
+     //
+     cout << setprecision(4) << setiosflags( ios::left );
+     cout << "  Float: " << setw(10) << aFloat << " ###\n\n";
+
+     /*********************************************************************
+      ,*************** Create some code to output a table ******************
+      ,*********************************************************************
+
+      ,* The following table has a leading tab.
+
+          Oct   Dec   Hex   Char
+          ----------------------
+          141   97    61    a
+          142   98    62    b
+          143   99    63    c
+          144   100   64    d
+          145   101   65    e
+          146   102   66    f
+          147   103   67    g
+          150   104   68    h
+          151   105   69    i
+          152   106   6a    j
+          153   107   6b    k
+          154   108   6c    l
+          155   109   6d    m
+          156   110   6e    n
+          157   111   6f    o
+          160   112   70    p
+          161   113   71    q
+          162   114   72    r
+          163   115   73    s
+          164   116   74    t
+          165   117   75    u
+          166   118   76    v
+          167   119   77    w
+          170   120   78    x
+          171   121   79    y
+          172   122   7a    z
+
+      ,*********************************************************************/
+
+     /*********************************************************************
+      ,*************** Now play with pointers to finish up *****************
+      ,*********************************************************************/
+
+     int *p1;
+     int *p2;
+
+     p1 = new int;
+     ,*p1 = 42;
+     p2 = p1;
+     cout << "*p1 == " << *p1 << endl;
+     cout << "*p2 == " << *p2 << endl;
+
+     ,*p2 = 53;
+     cout << "*p1 == " << *p1 << endl;
+     cout << "*p2 == " << *p2 << endl;
+
+     p1 = new int;
+     ,*p1 = 88;
+     cout << "*p1 == " << *p1 << endl;
+     cout << "*p2 == " << *p2 << endl;
+
+     cout << "Hope you got the point of this example!\n";
+
+     delete p1;
+     delete p2;
+
+     return 0;
+  }
+
+
+#+END_SRC
+
+#+BEGIN_SRC C :tangle lb01.c :results output 
+  /***********************************************************************
+   ,* Program:
+   ,*    Lab C_lab, ECEN 324 Learning C Lab
+   ,*    Brother Jones, ECEN 324
+   ,* Author:
+   ,*    Colton Kopsa
+   ,* Summary:
+   ,*    Demonstrates various ways to print things in different formats,
+   ,*    and in addition demonstrates how to do simple tasks in C like
+   ,*    constants, loops, points, memory allocation/deletion.
+   ,************************************************************************/
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  #define PI 3.1415926
+
+  int main() {
+    // Printing various items
+
+    const char LETTER = 'A';
+    printf("%d\n", 24);
+    printf("%0.5f\n", PI);
+    printf("%c\n", LETTER);
+
+    float payRate = 10.50;
+    int hours = 40;
+
+    printf("Users pay rate: $%.1f\n", payRate);
+    printf(" Hours worked: %d\n", hours);
+    printf("    Gross Pay: $%d\n", (int)(hours * payRate));
+
+    int number;
+    perror("Enter number: ");
+    scanf("%d", &number);
+    printf("Twice %d is %d\n", number, number*2);
+
+    /*********************************************************************/
+    /*********************** Output an Integer ***************************/
+    /*********************************************************************/
+    int anInt = 99;
+    float aFloat = 43.2;
+
+    // Output the integer with the default formatting.
+    //
+    printf("\n");                      // output a blank line
+    printf("Integer: %d ###\n", anInt);
+
+    // Output the integer in a fixed field width of 10.
+    // The object will be right justified in the field.
+    //
+    printf("Integer: %10d ###\n", anInt);
+
+    // Output the integer in a fixed field width of 10
+    // and left justified in the field.
+    //
+    printf("Integer: %-10d ###\n\n", anInt);
+
+
+    /*********************************************************************/
+    /************************* Output a Float ****************************/
+    /*********************************************************************/
+
+    // Output the float with the default formatting.
+    //
+    printf("  Float: %0.1f ###\n", aFloat);
+
+    // Output the float in a fixed field width of 10.
+    //
+    printf("  Float: %-10.1f ###\n", aFloat);
+
+    // Output the float right justified in a field width of 10 with  
+    // a precision of 2 places after the decimal point for the float. 
+    //
+    printf("  Float: %10.2f ###\n", aFloat);
+
+    // Output the float with 3 places of precision after the decimal point but
+    // not giving a field width.
+    //
+    printf("  Float: %0.3f ###\n", aFloat);
+
+    // Output the float with 3 places of precision after the decimal point with
+    // a field width of 10. 
+    //
+    printf("  Float: %10.3f ###\n", aFloat);
+
+    // Output the float with 4 places of precision after the decimal point with 
+    // a field width of 10 and left justify the number.
+    //
+    printf("  Float: %-10.4f ###\n", aFloat);
+
+    /*********************************************************************
+     ,*************** Create some code to output a table ******************
+     ,*********************************************************************/
+
+    // Loops through lowercase letters of the alphabet and displays
+    // its Octal, Decimal, Hexadecimal, and Character representation
+    //
+    printf("\n\tOct   Dec   Hex   Char\n");
+    printf("\t----------------------\n");
+    int i;
+    for (i = 'a'; i <= 'z'; i++) {
+      printf("\t%-5o %-5d %-5x %c\n", i, i, i, i);
+    }
+
+    printf("\n");                      // output a blank line
+    /*********************************************************************
+     ,*************** Now play with pointers to finish up *****************
+     ,*********************************************************************/
+    int *p1;
+    int *p2;
+
+    p1 = malloc(sizeof(int));
+    ,*p1 = 42;
+    p2 = p1;
+    printf("*p1 == %d\n", *p1);
+    printf("*p2 == %d\n", *p2);
+
+    ,*p2 = 53;
+    printf("*p1 == %d\n", *p1);
+    printf("*p2 == %d\n", *p2);
+
+    p1 = malloc(sizeof(int));
+    ,*p1 = 88;
+    printf("*p1 == %d\n", *p1);
+    printf("*p2 == %d\n", *p2);
+
+    printf("Hope you got the point of this example!\n");
+
+    free(p1);
+    free(p2);
+
+    p1 = NULL;
+    p2 = NULL;
+
+    return 0;
+  }
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+24
+3.14159
+A
+Users pay rate: $10.5
+ Hours worked: 40
+    Gross Pay: $420
+Twice 0 is 0
+
+Integer: 99 ###
+Integer:         99 ###
+Integer: 99         ###
+
+  Float: 43.2 ###
+  Float: 43.2       ###
+  Float:      43.20 ###
+  Float: 43.200 ###
+  Float:     43.200 ###
+  Float: 43.2000    ###
+
+	Oct   Dec   Hex   Char
+	----------------------
+	141   97    61    a
+	142   98    62    b
+	143   99    63    c
+	144   100   64    d
+	145   101   65    e
+	146   102   66    f
+	147   103   67    g
+	150   104   68    h
+	151   105   69    i
+	152   106   6a    j
+	153   107   6b    k
+	154   108   6c    l
+	155   109   6d    m
+	156   110   6e    n
+	157   111   6f    o
+	160   112   70    p
+	161   113   71    q
+	162   114   72    r
+	163   115   73    s
+	164   116   74    t
+	165   117   75    u
+	166   118   76    v
+	167   119   77    w
+	170   120   78    x
+	171   121   79    y
+	172   122   7a    z
+
+*p1 == 42
+*p2 == 42
+*p1 == 53
+*p2 == 53
+*p1 == 88
+*p2 == 53
+Hope you got the point of this example!
+#+end_example
