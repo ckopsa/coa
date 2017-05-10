@@ -312,10 +312,18 @@ int abs(int x) {
  *   Rating: 3
  2147483647 < x + y
  -2147483648 > x + y
+ 0 0 0 = 1
+ 0 0 1 = 0
+ 0 1 0 = 1
+ 0 1 1 = 1
+ 1 0 0 = 1
+ 1 0 1 = 1
+ 1 1 0 = 0
+ 1 1 1 = 1
  */
 int addOK(int x, int y) {
   int xSign = x >> 31 & 1;
   int ySign = y >> 31 & 1;
   int aSign = (x + y) >> 31 & 1;
-  return (~(xSign ^ ySign) ^ aSign);
+  return (!xSign & !aSign) | (ySign & aSign) | (xSign & !ySign);
 }
