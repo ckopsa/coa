@@ -166,10 +166,35 @@ int bitCount(int x) {
   // 0000 0000 0000 0000 0000 0000 0000 0000
   // 0001 0001 0001 0001 0001 0001 0001 0001
   int mask = 0x11111111;
+  int countMask = 0xF;
   int count = 0;
+  int bitCount = 0;
 
+  count = (x & mask) + count;
+  x = x >> 1;
+  count = (x & mask) + count;
+  x = x >> 1;
+  count = (x & mask) + count;
+  x = x >> 1;
+  count = (x & mask) + count;
 
-  return 2;
+  bitCount += (countMask & count);
+  count = count >> 4;
+  bitCount += (countMask & count);
+  count = count >> 4;
+  bitCount += (countMask & count);
+  count = count >> 4;
+  bitCount += (countMask & count);
+  count = count >> 4;
+  bitCount += (countMask & count);
+  count = count >> 4;
+  bitCount += (countMask & count);
+  count = count >> 4;
+  bitCount += (countMask & count);
+  count = count >> 4;
+  bitCount += (countMask & count);
+
+  return bitCount;
 }
 /*
  * bang - Compute !x without using !
@@ -177,9 +202,12 @@ int bitCount(int x) {
  *   Legal ops: ~ & ^ | + << >>
  *   Max ops: 12
  *   Rating: 4
+ 1101
+ 0010
+ 1111
  */
 int bang(int x) {
-  return x & (~x + 1);
+  return (~(x | (~x + 1)) >> 31) & 1;
 }
 /*
  * leastBitPos - return a mask that marks the position of the
@@ -220,9 +248,18 @@ int isNonNegative(int x) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 24
  *   Rating: 3
+ if (x - y is positive)
+
+ 65 - 85 = -20
+ 5 - 6
+ 0101
+ 1010
+ 1111
+ 0001
+ 0000
  */
 int isGreater(int x, int y) {
-  return 2;
+  return (x ^ y) >> 31 & 1;
 }
 /*
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
@@ -253,9 +290,18 @@ int divpwr2(int x, int n) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 10
  *   Rating: 4
+ 10110111
+ 11111111
+
+ 10110111
+ 01001001
+ 00000000
+ 01001001
+
  */
 int abs(int x) {
-  return 2;
+  int negOne = x >> 31;
+  return (x + (negOne & ((~x + 1) + (~x + 1))));
 }
 /*
  * addOK - Determine if can compute x+y without overflow
@@ -264,7 +310,12 @@ int abs(int x) {
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 20
  *   Rating: 3
+ 2147483647 < x + y
+ -2147483648 > x + y
  */
 int addOK(int x, int y) {
-  return 2;
+  int xSign = x >> 31 & 1;
+  int ySign = y >> 31 & 1;
+  int aSign = (x + y) >> 31 & 1;
+  return (~(xSign ^ ySign) ^ aSign);
 }
