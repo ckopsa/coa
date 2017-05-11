@@ -121,7 +121,8 @@ int isNotEqual(int x, int y) {
  *   Rating: 2
  */
 int getByte(int x, int n) {
-  return (x >> (8 * n)) & 0xFF;
+  // shift the proper amount and mask it
+  return (x >> (n << 3)) & 0xFF;
 }
 /*
  * copyLSB - set all bits of result to least significant bit of x
@@ -131,6 +132,7 @@ int getByte(int x, int n) {
  *   Rating: 2
  */
 int copyLSB(int x) {
+  // use the arithmatic shift to copy the LSB
   return (x << 31) >> 31;
 }
 /*
@@ -149,6 +151,8 @@ int copyLSB(int x) {
 
  */
 int logicalShift(int x, int n) {
+  // shift it arithmatically and then mask it with
+  // the appropriate mask
   return (x >> n) & ~((1 << 31) >> n << 1);
 }
 /*
@@ -165,10 +169,13 @@ int logicalShift(int x, int n) {
 int bitCount(int x) {
   // 0000 0000 0000 0000 0000 0000 0000 0000
   // 0001 0001 0001 0001 0001 0001 0001 0001
-  int mask = 0x11111111;
-  int countMask = 0xF;
+  int countMask = 0xFF;
   int count = 0;
   int bitCount = 0;
+  int mask = 1;
+  mask = (mask << 8) + 1;
+  mask = (mask << 8) + 1;
+  mask = (mask << 8) + 1;
 
   count = (x & mask) + count;
   x = x >> 1;
@@ -177,21 +184,21 @@ int bitCount(int x) {
   count = (x & mask) + count;
   x = x >> 1;
   count = (x & mask) + count;
+  x = x >> 1;
+  count = (x & mask) + count;
+  x = x >> 1;
+  count = (x & mask) + count;
+  x = x >> 1;
+  count = (x & mask) + count;
+  x = x >> 1;
+  count = (x & mask) + count;
 
   bitCount += (countMask & count);
-  count = count >> 4;
+  count = count >> 8;
   bitCount += (countMask & count);
-  count = count >> 4;
+  count = count >> 8;
   bitCount += (countMask & count);
-  count = count >> 4;
-  bitCount += (countMask & count);
-  count = count >> 4;
-  bitCount += (countMask & count);
-  count = count >> 4;
-  bitCount += (countMask & count);
-  count = count >> 4;
-  bitCount += (countMask & count);
-  count = count >> 4;
+  count = count >> 8;
   bitCount += (countMask & count);
 
   return bitCount;
@@ -271,9 +278,9 @@ int isGreater(int x, int y) {
   int yCompliment = ~y + 1;
   int xSign = x >> 31 & 1;
   int ySign = y >> 31 & 1;
-  int dSign = !xSign & ySign;
+  int dSign = (!xSign) & ySign;
   int difference = x + yCompliment;
-  int oSign = !(xSign ^ ySign) & ((difference >> 31 & 1) + !!(x ^ y));
+  int oSign = (!(xSign ^ ySign)) & ((difference >> 31 & 1) + !!(x ^ y));
   return dSign | oSign;
 }
 /*
