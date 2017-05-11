@@ -257,9 +257,24 @@ int isNonNegative(int x) {
  1111
  0001
  0000
+
+ 0101
+ 1100
+ 0100
+ 1001
+
+ 1001
+ 1000
+
  */
 int isGreater(int x, int y) {
-  return (x ^ y) >> 31 & 1;
+  int yCompliment = ~y + 1;
+  int xSign = x >> 31 & 1;
+  int ySign = y >> 31 & 1;
+  int dSign = !xSign & ySign;
+  int difference = x + yCompliment;
+  int oSign = !(xSign ^ ySign) & ((difference >> 31 & 1) + !!(x ^ y));
+  return dSign | oSign;
 }
 /*
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
