@@ -72,12 +72,12 @@ using namespace std;
 bool isLeapYear(int year)
 {
    // Is a leap year if on the quad century
-   if (year % 400 == 0)
+   if (year % 400)
      return true; // 2000, 2400, 2800, 3200, etc.
    else {
-     if (year % 100 == 0)
+     if (year % 100)
        return false; // 1800, 1900, 2100, 2200, etc.
-     else if (year % 4 == 0)
+     else if (year % 4)
        return true; // 2004, 2008, 2012, 2016, etc.
    }
    return false;
