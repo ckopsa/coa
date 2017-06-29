@@ -71,26 +71,16 @@ using namespace std;
  ***********************************************************************/
 bool isLeapYear(int year)
 {
-   bool leap;
-   // Not a leap year if not evenly divisible by 4
-   if (year % 4 != 0)
-      leap = false; // 2001, 2002, 2003, 2005, etc.
-   else if (year % 4 == 0)
-      leap = true; // 2004, 2008, 2012, 2016, etc.
-
-   // Is a leap year if not divisible by 100
-   if (year % 100 != 0 && leap)
-      leap = true; // 1992, 1996, 2004, 2008, etc.
-   if (year % 100 == 0 && leap)
-      leap = false; // 1800, 1900, 2100, 2200, etc.
-
    // Is a leap year if on the quad century
-   if (year % 400 == 0 && !leap || leap)
-      leap = true; // 2000, 2400, 2800, 3200, etc.
-   if (year % 400 != 0 && !leap)
-      leap = false; // 1800, 1900, 2100, 2200, etc.
-
-   return leap;
+   if (year % 400 == 0)
+     return true; // 2000, 2400, 2800, 3200, etc.
+   else {
+     if (year % 100 == 0)
+       return false; // 1800, 1900, 2100, 2200, etc.
+     else if (year % 4 == 0)
+       return true; // 2004, 2008, 2012, 2016, etc.
+   }
+   return false;
 }
 
 
@@ -121,20 +111,6 @@ int numDaysInMonth(int month, int year)
 
 /**********************************************************************
  * YOUR DESCRIPTION HERE
- ***********************************************************************/
-int numDaysInYear(int year)
-{
-   int days;
-   if (isLeapYear(year))
-      days = 366;
-   if (!isLeapYear(year))
-      days = 365;
-   return days;
-}
-
-
-/**********************************************************************
- * YOUR DESCRIPTION HERE
  * Offset is from Monday because Jan 1, 1753 was a Monday.
  ***********************************************************************/
 int computeOffset(int month, int year)
@@ -144,7 +120,7 @@ int computeOffset(int month, int year)
    // Add up the days associated with each year
    for (int cYear = yearSeed; cYear < year; cYear++)
    {
-      days += numDaysInYear(cYear);
+     days += isLeapYear(cYear) ? 366 : 365;
    }
 
    // Add up the days associated with each month
