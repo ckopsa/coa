@@ -140,30 +140,44 @@ int displayHeader(int month, int year, char *calendar, int pos)
    pos += sprintf(calendar + pos, "\n");
 
    // Write the month
-   if (month == 1)
-      pos += sprintf(calendar + pos, "%s", "January");
-   if (month == 2)
-      pos += sprintf(calendar + pos, "%s", "February");
-   if (month == 3)
-      pos += sprintf(calendar + pos, "%s", "March");
-   if (month == 4)
-      pos += sprintf(calendar + pos, "%s", "April");
-   if (month == 5)
-      pos += sprintf(calendar + pos, "%s", "May");
-   if (month == 6)
-      pos += sprintf(calendar + pos, "%s", "June");
-   if (month == 7)
-      pos += sprintf(calendar + pos, "%s", "July");
-   if (month == 8)
-      pos += sprintf(calendar + pos, "%s", "August");
-   if (month == 9)
-      pos += sprintf(calendar + pos, "%s", "September");
-   if (month == 10)
-      pos += sprintf(calendar + pos, "%s", "October");
-   if (month == 11)
-      pos += sprintf(calendar + pos, "%s", "November");
-   if (month == 12)
-      pos += sprintf(calendar + pos, "%s", "December");
+   switch(month) {
+   case 1:
+     pos += sprintf(calendar + pos, "%s", "January");
+     break;
+   case 2:
+     pos += sprintf(calendar + pos, "%s", "February");
+     break;
+   case 3:
+     pos += sprintf(calendar + pos, "%s", "March");
+     break;
+   case 4:
+     pos += sprintf(calendar + pos, "%s", "April");
+     break;
+   case 5:
+     pos += sprintf(calendar + pos, "%s", "May");
+     break;
+   case 6:
+     pos += sprintf(calendar + pos, "%s", "June");
+     break;
+   case 7:
+     pos += sprintf(calendar + pos, "%s", "July");
+     break;
+   case 8:
+     pos += sprintf(calendar + pos, "%s", "August");
+     break;
+   case 9:
+     pos += sprintf(calendar + pos, "%s", "September");
+     break;
+   case 10:
+     pos += sprintf(calendar + pos, "%s", "October");
+     break;
+   case 11:
+     pos += sprintf(calendar + pos, "%s", "November");
+     break;
+   case 12:
+     pos += sprintf(calendar + pos, "%s", "December");
+     break;
+   }
 
    // Write the year
    pos += sprintf(calendar + pos, ", ");
