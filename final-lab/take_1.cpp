@@ -90,6 +90,7 @@ bool isLeapYear(int year)
 int numDaysInMonth(int month, int year)
 {
   int days[] = {
+    0,  // skip first slot
     31, // 1
     28, // 2
     31, // 3
@@ -104,9 +105,9 @@ int numDaysInMonth(int month, int year)
     31  // 12
   };
   if (month == 2 && isLeapYear(year))
-    return days[month-1] + 1;
+    return days[month] + 1;
   else
-    return days[month-1];
+    return days[month];
 }
 
 /**********************************************************************
