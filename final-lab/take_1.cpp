@@ -48,8 +48,8 @@
 ************************************************************************/
 
 /***********************************************************************
-* This code is to be compiled with: CAL_COMPILE_OPT=" ... "
-************************************************************************/
+ * This code is to be compiled with: CAL_COMPILE_OPT=" ... "
+ ************************************************************************/
 
 #include <iostream>
 #include <stdio.h>
@@ -71,16 +71,16 @@ using namespace std;
  ***********************************************************************/
 bool isLeapYear(int year)
 {
-   // Is a leap year if on the quad century
-   if (year % 400)
-     return true; // 2000, 2400, 2800, 3200, etc.
-   else {
-     if (year % 100)
-       return false; // 1800, 1900, 2100, 2200, etc.
-     else if (year % 4)
-       return true; // 2004, 2008, 2012, 2016, etc.
-   }
-   return false;
+  // Is a leap year if on the quad century
+  if (year % 400)
+    return true; // 2000, 2400, 2800, 3200, etc.
+  else {
+    if (year % 100)
+      return false; // 1800, 1900, 2100, 2200, etc.
+    else if (year % 4)
+      return true; // 2004, 2008, 2012, 2016, etc.
+  }
+  return false;
 }
 
 
@@ -116,21 +116,21 @@ int numDaysInMonth(int month, int year)
  ***********************************************************************/
 int computeOffset(int month, int year)
 {
-   int days = 0;
+  int days = 0;
 
-   // Add up the days associated with each year
-   for (int cYear = yearSeed; cYear < year; cYear++)
-   {
-     days += isLeapYear(cYear) ? 366 : 365;
-   }
+  // Add up the days associated with each year
+  for (int cYear = yearSeed; cYear < year; cYear++)
+    {
+      days += isLeapYear(cYear) ? 366 : 365;
+    }
 
-   // Add up the days associated with each month
-   for (int cMonth = 1; cMonth < month; cMonth++)
-   {
+  // Add up the days associated with each month
+  for (int cMonth = 1; cMonth < month; cMonth++)
+    {
       days += numDaysInMonth(cMonth, year);
-   }
+    }
 
-   return days % 7;
+  return days % 7;
 }
 
 /**********************************************************************
@@ -138,32 +138,32 @@ int computeOffset(int month, int year)
  ***********************************************************************/
 int displayHeader(int month, int year, char *calendar, int pos)
 {
-   pos += sprintf(calendar + pos, "\n");
+  pos += sprintf(calendar + pos, "\n");
 
-   char* months[] = {
-     "",  // skip first slot
-     "January", // 1
-     "February", // 2
-     "March", // 3
-     "April", // 4
-     "May", // 5
-     "June", // 6
-     "July", // 7
-     "August", // 8
-     "September", // 9
-     "October", // 10
-     "November", // 11
-     "December"  // 12
-   };
-   // Write the month
-     pos += sprintf(calendar + pos, "%s", months[month]);
+  string months[] = {
+    "",  // skip first slot
+    "January", // 1
+    "February", // 2
+    "March", // 3
+    "April", // 4
+    "May", // 5
+    "June", // 6
+    "July", // 7
+    "August", // 8
+    "September", // 9
+    "October", // 10
+    "November", // 11
+    "December"  // 12
+  };
+  // Write the month
+  pos += sprintf(calendar + pos, "%s", months[month]);
 
-   // Write the year
-   pos += sprintf(calendar + pos, ", ");
-   pos += sprintf(calendar + pos, "%i", year);
-   pos += sprintf(calendar + pos, "\n");
+  // Write the year
+  pos += sprintf(calendar + pos, ", ");
+  pos += sprintf(calendar + pos, "%i", year);
+  pos += sprintf(calendar + pos, "\n");
 
-   return pos;
+  return pos;
 }
 
 /********************************************************************
@@ -171,41 +171,41 @@ int displayHeader(int month, int year, char *calendar, int pos)
  *******************************************************************/
 int displayTable(int numDays, int offset, char *calendar, int pos)
 {
-   // Special case offset==6. We don't want a blank first line
-   if (offset == 6)
-      offset = -1;
+  // Special case offset==6. We don't want a blank first line
+  if (offset == 6)
+    offset = -1;
 
-   pos += sprintf(calendar + pos, "  ");
-   pos += sprintf(calendar + pos, "%s", "Su");
-   pos += sprintf(calendar + pos, "%s", "Mo");
-   pos += sprintf(calendar + pos, "%s", "Tu");
-   pos += sprintf(calendar + pos, "%s", "We");
-   pos += sprintf(calendar + pos, "%s", "Th");
-   pos += sprintf(calendar + pos, "%s", "Fr");
-   pos += sprintf(calendar + pos, "%s", "Sa");
-   pos += sprintf(calendar + pos, "\n");
+  pos += sprintf(calendar + pos, "  ");
+  pos += sprintf(calendar + pos, "%s", "Su");
+  pos += sprintf(calendar + pos, "%s", "Mo");
+  pos += sprintf(calendar + pos, "%s", "Tu");
+  pos += sprintf(calendar + pos, "%s", "We");
+  pos += sprintf(calendar + pos, "%s", "Th");
+  pos += sprintf(calendar + pos, "%s", "Fr");
+  pos += sprintf(calendar + pos, "%s", "Sa");
+  pos += sprintf(calendar + pos, "\n");
 
-   // Display the individual locations on the calendar grid
-   int dow = 0; // day of week
-   int dom;
-   for (dom = -offset; dom <= numDays; dom++, dow++)
-   {
+  // Display the individual locations on the calendar grid
+  int dow = 0; // day of week
+  int dom;
+  for (dom = -offset; dom <= numDays; dom++, dow++)
+    {
       // Display the number or not
       if (dom > 0)
-         pos += sprintf(calendar + pos, "% 4i", dom);
+        pos += sprintf(calendar + pos, "% 4i", dom);
       if (dom <= 0)
-         pos += sprintf(calendar + pos, "    ");
+        pos += sprintf(calendar + pos, "    ");
 
       // Display the end-of-row marker
       if (dow % 7 == 6)
-         pos += sprintf(calendar + pos, "\n");
-   }
+        pos += sprintf(calendar + pos, "\n");
+    }
 
-   // Extra ENDL as necessary
-   if (dow % 7 != 0)
-      pos += sprintf(calendar + pos, "\n");
+  // Extra ENDL as necessary
+  if (dow % 7 != 0)
+    pos += sprintf(calendar + pos, "\n");
 
-   return pos;
+  return pos;
 }
 
 
@@ -214,16 +214,16 @@ int displayTable(int numDays, int offset, char *calendar, int pos)
  ***********************************************************************/
 void display(int month, int year, char *calendar)
 {
-   int pos = 0;
-   int offset = computeOffset(month, year);
+  int pos = 0;
+  int offset = computeOffset(month, year);
 
-   // Header
-   pos += displayHeader(month, year, calendar, pos);
+  // Header
+  pos += displayHeader(month, year, calendar, pos);
 
-   // Body of the table
-   pos += displayTable(numDaysInMonth(month, year), offset, calendar, pos);
+  // Body of the table
+  pos += displayTable(numDaysInMonth(month, year), offset, calendar, pos);
 
-   return;
+  return;
 }
 
 
@@ -233,6 +233,6 @@ void display(int month, int year, char *calendar)
  ***********************************************************************/
 void make_calendars(int months[], int years[], char *calendars)
 {
-   for (int i = 0; i < NUM_CALS; i++)
-      display(months[i], years[i], calendars + i * CAL_LENGTH);
+  for (int i = 0; i < NUM_CALS; i++)
+    display(months[i], years[i], calendars + i * CAL_LENGTH);
 }
