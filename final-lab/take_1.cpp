@@ -138,31 +138,23 @@ int computeOffset(int month, int year)
  ***********************************************************************/
 int displayHeader(int month, int year, char *calendar, int pos)
 {
-  pos += sprintf(calendar + pos, "\n");
-
   const char * months[] = {
-    "",  // skip first slot
-    "January", // 1
-    "February", // 2
-    "March", // 3
-    "April", // 4
-    "May", // 5
-    "June", // 6
-    "July", // 7
-    "August", // 8
+    "",          // skip first slot
+    "January",   // 1
+    "February",  // 2
+    "March",     // 3
+    "April",     // 4
+    "May",       // 5
+    "June",      // 6
+    "July",      // 7
+    "August",    // 8
     "September", // 9
-    "October", // 10
-    "November", // 11
-    "December"  // 12
+    "October",   // 10
+    "November",  // 11
+    "December"   // 12
   };
-  // Write the month
-  pos += sprintf(calendar + pos, "%s", months[month]);
-
-  // Write the year
-  pos += sprintf(calendar + pos, ", ");
-  pos += sprintf(calendar + pos, "%i", year);
-  pos += sprintf(calendar + pos, "\n");
-
+  // Write the month and year
+  pos += sprintf(calendar + pos, "\n%s, %i\n", months[month], year);
   return pos;
 }
 
@@ -175,15 +167,7 @@ int displayTable(int numDays, int offset, char *calendar, int pos)
   if (offset == 6)
     offset = -1;
 
-  pos += sprintf(calendar + pos, "  ");
-  pos += sprintf(calendar + pos, "%s", "Su");
-  pos += sprintf(calendar + pos, "%s", "Mo");
-  pos += sprintf(calendar + pos, "%s", "Tu");
-  pos += sprintf(calendar + pos, "%s", "We");
-  pos += sprintf(calendar + pos, "%s", "Th");
-  pos += sprintf(calendar + pos, "%s", "Fr");
-  pos += sprintf(calendar + pos, "%s", "Sa");
-  pos += sprintf(calendar + pos, "\n");
+  pos += sprintf(calendar + pos, "  SuMoTuWeThFrSa\n");
 
   // Display the individual locations on the calendar grid
   int dow = 0; // day of week
@@ -193,7 +177,7 @@ int displayTable(int numDays, int offset, char *calendar, int pos)
       // Display the number or not
       if (dom > 0)
         pos += sprintf(calendar + pos, "% 4i", dom);
-      if (dom <= 0)
+      else
         pos += sprintf(calendar + pos, "    ");
 
       // Display the end-of-row marker
