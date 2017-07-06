@@ -140,7 +140,7 @@ int displayHeader(int month, int year, char *calendar, int pos)
 {
   pos += sprintf(calendar + pos, "\n");
 
-  string months[] = {
+  const char * months[] = {
     "",  // skip first slot
     "January", // 1
     "February", // 2
