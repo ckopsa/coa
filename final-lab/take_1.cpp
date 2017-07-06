@@ -140,45 +140,23 @@ int displayHeader(int month, int year, char *calendar, int pos)
 {
    pos += sprintf(calendar + pos, "\n");
 
+   char* months[] = {
+     "",  // skip first slot
+     "January", // 1
+     "February", // 2
+     "March", // 3
+     "April", // 4
+     "May", // 5
+     "June", // 6
+     "July", // 7
+     "August", // 8
+     "September", // 9
+     "October", // 10
+     "November", // 11
+     "December"  // 12
+   };
    // Write the month
-   switch(month) {
-   case 1:
-     pos += sprintf(calendar + pos, "%s", "January");
-     break;
-   case 2:
-     pos += sprintf(calendar + pos, "%s", "February");
-     break;
-   case 3:
-     pos += sprintf(calendar + pos, "%s", "March");
-     break;
-   case 4:
-     pos += sprintf(calendar + pos, "%s", "April");
-     break;
-   case 5:
-     pos += sprintf(calendar + pos, "%s", "May");
-     break;
-   case 6:
-     pos += sprintf(calendar + pos, "%s", "June");
-     break;
-   case 7:
-     pos += sprintf(calendar + pos, "%s", "July");
-     break;
-   case 8:
-     pos += sprintf(calendar + pos, "%s", "August");
-     break;
-   case 9:
-     pos += sprintf(calendar + pos, "%s", "September");
-     break;
-   case 10:
-     pos += sprintf(calendar + pos, "%s", "October");
-     break;
-   case 11:
-     pos += sprintf(calendar + pos, "%s", "November");
-     break;
-   case 12:
-     pos += sprintf(calendar + pos, "%s", "December");
-     break;
-   }
+     pos += sprintf(calendar + pos, "%s", months[month]);
 
    // Write the year
    pos += sprintf(calendar + pos, ", ");
