@@ -197,25 +197,14 @@ int displayTable(int numDays, int offset, char *calendar, int pos)
    if (offset == 6)
       offset = -1;
 
-   // Display the header
-   for (int i = 0; i < 7; i++)
-   {
-      pos += sprintf(calendar + pos, "  ");
-      if (i == 0)
-         pos += sprintf(calendar + pos, "%s", "Su");
-      if (i == 1)
-         pos += sprintf(calendar + pos, "%s", "Mo");
-      if (i == 2)
-         pos += sprintf(calendar + pos, "%s", "Tu");
-      if (i == 3)
-         pos += sprintf(calendar + pos, "%s", "We");
-      if (i == 4)
-         pos += sprintf(calendar + pos, "%s", "Th");
-      if (i == 5)
-         pos += sprintf(calendar + pos, "%s", "Fr");
-      if (i == 6)
-         pos += sprintf(calendar + pos, "%s", "Sa");
-   }
+   pos += sprintf(calendar + pos, "  ");
+   pos += sprintf(calendar + pos, "%s", "Su");
+   pos += sprintf(calendar + pos, "%s", "Mo");
+   pos += sprintf(calendar + pos, "%s", "Tu");
+   pos += sprintf(calendar + pos, "%s", "We");
+   pos += sprintf(calendar + pos, "%s", "Th");
+   pos += sprintf(calendar + pos, "%s", "Fr");
+   pos += sprintf(calendar + pos, "%s", "Sa");
    pos += sprintf(calendar + pos, "\n");
 
    // Display the individual locations on the calendar grid
