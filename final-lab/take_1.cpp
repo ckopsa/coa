@@ -3,10 +3,21 @@
 *    Lab CalendarOptimize, Optimizing a Calendar Program
 *    Brother Jones, ECEN 324
 * Author:
-*    Your Name
+*    Colton Kopsa
 * Summary:
-*    A summary of the optimizations that you did goes here.
-*    A portion of your grade is based on this summary.
+*    Optimizations:
+*    - Streamlined isLeapYear logic 
+*    - Replaced chained if statements with arrays where applicable
+*    - Combined print statements to lower function call amount
+*    - Removed function call to numDaysInYear and handled calculation in line
+*    
+*    Final Results:
+*    USER/FILE: take_1
+*     -clocked at:  253.30ms
+*      -correctness: 100.0%
+*      OPTIMIZED:
+*       -clocked at:  159.53ms
+*        -correctness: 100.0%
 *
 * Notes:
 *    - Your goal is to optimize this program to minimize the run time.
@@ -67,27 +78,23 @@ using namespace std;
 #define buckRogers 2200
 
 /**********************************************************************
- * YOUR DESCRIPTION HERE
+ * Determines if leap year from year
+ * Code from: https://stackoverflow.com/questions/3220163/how-to-find-leap-year-programatically-in-c
  ***********************************************************************/
 bool isLeapYear(int year)
 {
-  // Is a leap year if on the quad century
-  if (year % 400)
-    return true; // 2000, 2400, 2800, 3200, etc.
-  else {
-    if (year % 100)
-      return false; // 1800, 1900, 2100, 2200, etc.
-    else if (year % 4)
-      return true; // 2004, 2008, 2012, 2016, etc.
-  }
+  if ((year & 3) == 0 && ((year % 25) != 0 || (year & 15) == 0))
+    {
+      return true;
+    }
   return false;
 }
 
 
 /**********************************************************************
- * YOUR DESCRIPTION HERE
+ * Calculates number of days in month given month and year
  ***********************************************************************/
-int numDaysInMonth(int month, int year)
+int numDaysInMonth(int month, int year, bool leapYear)
 {
   int days[] = {
     0,  // skip first slot
@@ -104,19 +111,20 @@ int numDaysInMonth(int month, int year)
     30, // 11
     31  // 12
   };
-  if (month == 2 && isLeapYear(year))
-    return days[month] + 1;
+	if (leapYear)
+    return 29;
   else
     return days[month];
 }
 
 /**********************************************************************
- * YOUR DESCRIPTION HERE
+ * Coomputes offset given month and year
  * Offset is from Monday because Jan 1, 1753 was a Monday.
  ***********************************************************************/
 int computeOffset(int month, int year)
 {
   int days = 0;
+  bool leapYear;
 
   // Add up the days associated with each year
   for (int cYear = yearSeed; cYear < year; cYear++)
@@ -127,14 +135,15 @@ int computeOffset(int month, int year)
   // Add up the days associated with each month
   for (int cMonth = 1; cMonth < month; cMonth++)
     {
-      days += numDaysInMonth(cMonth, year);
+      leapYear = isLeapYear(year);
+      days += numDaysInMonth(cMonth, year, leapYear);
     }
 
   return days % 7;
 }
 
 /**********************************************************************
- * YOUR DESCRIPTION HERE
+ * Displays month header
  ***********************************************************************/
 int displayHeader(int month, int year, char *calendar, int pos)
 {
@@ -159,7 +168,7 @@ int displayHeader(int month, int year, char *calendar, int pos)
 }
 
 /********************************************************************
- * YOUR DESCRIPTION HERE
+ * Displays table following header
  *******************************************************************/
 int displayTable(int numDays, int offset, char *calendar, int pos)
 {
@@ -167,7 +176,7 @@ int displayTable(int numDays, int offset, char *calendar, int pos)
   if (offset == 6)
     offset = -1;
 
-  pos += sprintf(calendar + pos, "  SuMoTuWeThFrSa\n");
+  pos += sprintf(calendar + pos, "  Su  Mo  Tu  We  Th  Fr  Sa\n");
 
   // Display the individual locations on the calendar grid
   int dow = 0; // day of week
@@ -194,18 +203,19 @@ int displayTable(int numDays, int offset, char *calendar, int pos)
 
 
 /**********************************************************************
- * YOUR DESCRIPTION HERE
+ * Displays header and table
  ***********************************************************************/
 void display(int month, int year, char *calendar)
 {
   int pos = 0;
   int offset = computeOffset(month, year);
+  bool leapYear = isLeapYear(year);
 
   // Header
   pos += displayHeader(month, year, calendar, pos);
 
   // Body of the table
-  pos += displayTable(numDaysInMonth(month, year), offset, calendar, pos);
+  pos += displayTable(numDaysInMonth(month, year, leapYear), offset, calendar, pos);
 
   return;
 }
